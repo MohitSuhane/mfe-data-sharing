@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import singleSpaReact from 'single-spa-react';
+import './header.css';
 
 const Footer = () => (
   <div className="mui-appbar mui--appbar-line-height">
     <table width="100%">
       <tbody>
-        <tr style={{ verticalAlign: 'middle' }}>
+        <tr className="td-middle">
           <td
             className="mui--appbar-height mui--text-display1"
-            style={{ paddingLeft: '1em' }}
           >
             Footer
           </td>

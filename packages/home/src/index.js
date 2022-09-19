@@ -24,4 +24,10 @@ registerApplication(
   location => location.pathname.startsWith('/')
 );
 
+registerApplication(
+  'cart-view',
+  () => import('cartView/CartView'),
+  location => location.pathname.startsWith('/')
+);
+
 start();
