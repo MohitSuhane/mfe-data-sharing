@@ -1,6 +1,7 @@
 const createStore = () => {
   let count = 0;
   let image = 0;
+  let fruit = [];
   const subscribers = [];
 
   return {
@@ -16,6 +17,13 @@ const createStore = () => {
     },
     set image(img) {
       image = img;
+      subscribers.forEach(fn => fn());
+    },
+    get fruit() {
+      return fruit;
+    },
+    setFruit(item) {
+      fruit.push(item);
       subscribers.forEach(fn => fn());
     },
     subscribe(fn) {

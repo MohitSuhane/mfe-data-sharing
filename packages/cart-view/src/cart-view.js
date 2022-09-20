@@ -4,33 +4,40 @@ import singleSpaReact from 'single-spa-react';
 import store from 'store/store';
 
 const CartView = () => {
-  const [count, setCount] = useState(store.count);
-  useEffect(() => {
-    store.subscribe(() => {
-      setCount(store.count);
-    });
-  }, []);
+  const [fruit, setFruit] = useState(store.fruit);
+  const handleNewMessage = (event) => {
+    setFruit([...event.detail]);
+  };
+
+  useEffect(() => {  
+    window.addEventListener('message', handleNewMessage);
+
+    return () => {
+      window.removeEventListener('message', handleNewMessage)
+    }
+  }, [handleNewMessage]);  
   return (
-    <div className="mui-appbar mui--appbar-line-height">
+    <div className="mui-panel">
       <table width="100%">
         <tbody>
           <tr style={{ verticalAlign: 'middle' }}>
             <td
-              className="mui--appbar-height mui--text-display1"
-              style={{ paddingLeft: '1em' }}
+              className="text-align: center;"
+              style={{ paddingLeft: '1em', fontWeight: 'bold' }}
             >
               Cart View
             </td>
-            
-            <td
-              className="mui--appbar-height mui--text-display1"
-              align="right"
-              style={{ paddingRight: '1em' }}
-            >
-                <i class="fa" style="font-size:24px">&#xf07a;</i>
-                <span class='badge badge-warning' id='lblCartCount'> {count} </span>
-            </td>
           </tr>
+          {fruit.map((item) => (
+            <tr style={{ verticalAlign: 'middle' }}>
+              <td className="text-align: center;"
+              style={{ paddingLeft: '1em', paddingTop: '5px' }}
+              > 
+                { item.name }
+              </td>
+            </tr>
+          ))}
+          
         </tbody>
       </table>
     </div>

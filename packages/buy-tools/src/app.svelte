@@ -8,6 +8,7 @@ store.subscribe(() => {
 });
 const addToCart = () => {
   store.incrementCount();
+  store.setFruit(fruit[image]);
 };
 </script>
 <div class="mui-panel">

@@ -6,11 +6,17 @@ import store from 'store/store';
 
 const Header = () => {
   const [count, setCount] = useState(store.count);
+  const [fruit, setFruit] = useState(store.fruit);
   useEffect(() => {
     store.subscribe(() => {
       setCount(store.count);
+      setFruit(store.fruit);
     });
   }, []);
+  function handleClick(){
+    const customEvent = new CustomEvent('message', { detail: fruit });
+    window.dispatchEvent(customEvent)
+  }
   return (
     <div className="mui-appbar mui--appbar-line-height">
       <table width="100%">
@@ -24,9 +30,9 @@ const Header = () => {
             
             <td
               className="mui--appbar-height mui--text-display1"
-              align="right"
+              align="right" 
             >
-                <i className="fa fa-cart-shopping" />
+                <i className="fa fa-cart-shopping" style={{fontSize:24}} onClick={handleClick}> &#xf07a; </i>
                 <span className='badge badge-warning' id='lblCartCount'> {count} </span>
             </td>
           </tr>
