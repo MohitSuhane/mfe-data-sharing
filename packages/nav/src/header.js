@@ -32,7 +32,7 @@ const Header = () => {
               className="mui--appbar-height mui--text-display1"
               align="right" 
             >
-                <i className="fa fa-cart-shopping" style={{fontSize:24}} onClick={handleClick}> &#xf07a; </i>
+                <i className="fa fa-cart-shopping" style={{fontSize:24}} onClick={handleClick} />
                 <span className='badge badge-warning' id='lblCartCount'> {count} </span>
             </td>
           </tr>
