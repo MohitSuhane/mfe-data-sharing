@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import singleSpaReact from 'single-spa-react';
-import './header.css';
-import store from 'store/store';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import singleSpaReact from "single-spa-react";
+import "./header.css";
+import store from "store/store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import "bootstrap/dist/css/bootstrap.css";
 
 const Header = () => {
   const [count, setCount] = useState(store.count);
@@ -15,40 +16,43 @@ const Header = () => {
       setFruit(store.fruit);
     });
   }, []);
-  function handleClick(){
-    const customEvent = new CustomEvent('message', { detail: fruit });
-    window.dispatchEvent(customEvent)
+  function handleClick() {
+    const customEvent = new CustomEvent("message", { detail: fruit });
+    window.dispatchEvent(customEvent);
   }
   return (
-    <div className="mui-appbar mui--appbar-line-height">
-      <table width="100%">
-        <tbody>
-          <tr className="td-middle">
-            <td
-              className="mui--appbar-height mui--text-headline"
+    <>
+      <nav className="navbar navbar-lg bg-dark text-white">
+        <div className="container-fluid">
+          <img
+            className="navbar-brand"
+            src="http://localhost:3001/fruit/FruiWala.png"
+          />
+          <div>
+            <FontAwesomeIcon
+              icon={faCartShopping}
+              onClick={handleClick}
+              className="cart-shoping-icon"
+              size="3x"
+            />
+
+            <span
+              id="lblCartCount"
+              className="translate-middle badge rounded-pill bg-danger"
             >
-              <img src="http://localhost:3001/fruit/FruiWala.png" />
-            </td>
-            
-            <td
-              className="mui--appbar-height mui--text-display1"
-              align="right" 
-            >
-                <FontAwesomeIcon icon={faCartShopping} onClick={handleClick} className="cart-icon" />
-                {/* <i className="fa fa-cart-shopping" style={{fontSize:24}}  /> */}
-                <span className='badge badge-warning' id='lblCartCount'> {count} </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+              {count} <span class="visually-hidden">items</span>
+            </span>
+          </div>
+        </div>
+      </nav>
+    </>
   );
 };
 
 const headerLifecycles = singleSpaReact({
   React,
   ReactDOM,
-  rootComponent: Header
+  rootComponent: Header,
 });
 
 export const bootstrap = headerLifecycles.bootstrap;

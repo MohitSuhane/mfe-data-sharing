@@ -10,26 +10,28 @@ const createStore = () => {
     },
     incrementCount() {
       count += 1;
-      subscribers.forEach(fn => fn());
+      subscribers.forEach((fn) => fn());
     },
     get image() {
       return image;
     },
     set image(img) {
       image = img;
-      subscribers.forEach(fn => fn());
+      subscribers.forEach((fn) => fn());
     },
     get fruit() {
       return fruit;
     },
     setFruit(item) {
-      fruit.push(item);
-      subscribers.forEach(fn => fn());
+      let newFruit = { ...item, id: count };
+
+      fruit.push(newFruit);
+      subscribers.forEach((fn) => fn());
     },
     subscribe(fn) {
       subscribers.push(fn);
-    }
-  }
+    },
+  };
 };
 
 const store = createStore();

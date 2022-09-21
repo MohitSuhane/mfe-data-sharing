@@ -1,53 +1,58 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 module.exports = {
-  entry: './src/index',
+  entry: "./src/index",
   cache: false,
 
-  mode: 'development',
-  devtool: 'source-map',
+  mode: "development",
+  devtool: "source-map",
 
   optimization: {
-    minimize: false
+    minimize: false,
   },
 
   output: {
-    publicPath: 'http://localhost:3006/'
+    publicPath: "http://localhost:3006/",
   },
 
   resolve: {
-    extensions: ['.jsx', '.js', '.json']
+    extensions: [".jsx", ".js", ".json", ".css"],
   },
 
   module: {
     rules: [
       {
         test: /\.jsx?$/,
-        loader: require.resolve('babel-loader'),
+        loader: require.resolve("babel-loader"),
         options: {
-          presets: [require.resolve('@babel/preset-react')]
-        }
-      }
-    ]
+          presets: [require.resolve("@babel/preset-react")],
+        },
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
   },
 
   plugins: [
     new ModuleFederationPlugin({
-      name: 'cartView',
-      library: { type: 'var', name: 'cartView' },
-      filename: 'remoteEntry.js',
+      external: "",
+      name: "cartView",
+      library: { type: "var", name: "cartView" },
+      filename: "remoteEntry.js",
       remotes: {
-        store: 'store',
+        store: "store",
       },
       exposes: {
-        './CartView': './src/cart-view',
+        "./CartView": "./src/cart-view",
       },
-      shared: ['react', 'react-dom', 'single-spa-react']
+      shared: ["react", "react-dom", "single-spa-react"],
     }),
     new HtmlWebpackPlugin({
-      template: './public/index.html',
-      chunks: ['main']
-    })
-  ]
+      template: "./public/index.html",
+      chunks: ["main"],
+    }),
+  ],
 };

@@ -1,25 +1,25 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const path = require('path');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const CopyPlugin = require("copy-webpack-plugin");
+const path = require("path");
 
 module.exports = {
-  entry: './src/index',
+  entry: "./src/index",
   cache: false,
 
-  mode: 'development',
-  devtool: 'source-map',
+  mode: "development",
+  devtool: "source-map",
 
   optimization: {
-    minimize: false
+    minimize: false,
   },
 
   output: {
-    publicPath: 'http://localhost:3004/'
+    publicPath: "http://localhost:3004/",
   },
 
   resolve: {
-    extensions: ['.svelte', '.js', '.json']
+    extensions: [".svelte", ".js", ".json"],
   },
 
   module: {
@@ -28,7 +28,7 @@ module.exports = {
         test: /\.(svelte)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'svelte-loader',
+          loader: "svelte-loader",
           options: {
             externalDependencies: true,
           },
@@ -36,27 +36,31 @@ module.exports = {
       },
       {
         test: /\.md$/,
-        loader: 'raw-loader'
-      }
-    ]
+        loader: "raw-loader",
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
   },
 
   plugins: [
     new ModuleFederationPlugin({
-      name: 'buyTools',
-      library: { type: 'var', name: 'buyTools' },
-      filename: 'remoteEntry.js',
+      name: "buyTools",
+      library: { type: "var", name: "buyTools" },
+      filename: "remoteEntry.js",
       remotes: {
-        home: 'home',
-        store: 'store',
+        home: "home",
+        store: "store",
       },
       exposes: {
-        './BuyTools': './src/index'
+        "./BuyTools": "./src/index",
       },
-      shared: []
+      shared: [],
     }),
     new HtmlWebpackPlugin({
-      template: './public/index.html'
+      template: "./public/index.html",
     }),
-  ]
+  ],
 };

@@ -1,53 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import singleSpaReact from 'single-spa-react';
-import store from 'store/store';
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import singleSpaReact from "single-spa-react";
+import store from "store/store";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/js/bootstrap.bundle";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 const CartView = () => {
   const [fruit, setFruit] = useState(store.fruit);
   const handleNewMessage = (event) => {
-    setFruit([...event.detail]);
+    if (event.detail) {
+      setFruit([...event.detail]);
+      setShow(true);
+    }
   };
+  const [show, setShow] = useState(false);
 
-  useEffect(() => {  
-    window.addEventListener('message', handleNewMessage);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    window.addEventListener("message", handleNewMessage);
 
     return () => {
-      window.removeEventListener('message', handleNewMessage)
-    }
-  }, [handleNewMessage]);  
+      window.removeEventListener("message", handleNewMessage);
+    };
+  }, [handleNewMessage]);
+
   return (
-    <div className="mui-panel">
-      <table width="100%">
-        <tbody>
-          <tr style={{ verticalAlign: 'middle' }}>
-            <td
-              className="text-align: center;"
-              style={{ paddingLeft: '1em', fontWeight: 'bold' }}
-            >
-              Cart View
-            </td>
-          </tr>
-          {fruit.map((item) => (
-            <tr style={{ verticalAlign: 'middle' }}>
-              <td className="text-align: center;"
-              style={{ paddingLeft: '1em', paddingTop: '5px' }}
-              > 
-                { item.name }
-              </td>
-            </tr>
-          ))}
-          
-        </tbody>
-      </table>
-    </div>
+    <>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Items</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <table className="table">
+            <tbody>
+              {fruit.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 
 const cartViewLifecycles = singleSpaReact({
   React,
   ReactDOM,
-  rootComponent: CartView
+  rootComponent: CartView,
 });
 
 export const bootstrap = cartViewLifecycles.bootstrap;

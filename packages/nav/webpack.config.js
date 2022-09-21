@@ -1,58 +1,58 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 module.exports = {
-  entry: './src/index',
+  entry: "./src/index",
   cache: false,
 
-  mode: 'development',
-  devtool: 'source-map',
+  mode: "development",
+  devtool: "source-map",
 
   optimization: {
-    minimize: false
+    minimize: false,
   },
 
   output: {
-    publicPath: 'http://localhost:3003/'
+    publicPath: "http://localhost:3003/",
   },
 
   resolve: {
-    extensions: ['.jsx', '.js', '.json']
+    extensions: [".jsx", ".js", ".json"],
   },
 
   module: {
     rules: [
       {
         test: /\.jsx?$/,
-        loader: require.resolve('babel-loader'),
+        loader: require.resolve("babel-loader"),
         options: {
-          presets: [require.resolve('@babel/preset-react')]
-        }
+          presets: [require.resolve("@babel/preset-react")],
+        },
       },
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
-      }
-    ]
+      },
+    ],
   },
 
   plugins: [
     new ModuleFederationPlugin({
-      name: 'nav',
-      library: { type: 'var', name: 'nav' },
-      filename: 'remoteEntry.js',
+      name: "nav",
+      library: { type: "var", name: "nav" },
+      filename: "remoteEntry.js",
       remotes: {
-        store: 'store',
+        store: "store",
       },
       exposes: {
-        './Header': './src/header',
-        './Footer': './src/footer',
+        "./Header": "./src/header",
+        "./Footer": "./src/footer",
       },
-      shared: ['react', 'react-dom', 'single-spa-react']
+      shared: ["react", "react-dom", "single-spa-react"],
     }),
     new HtmlWebpackPlugin({
-      template: './public/index.html',
-      chunks: ['main']
-    })
-  ]
+      template: "./public/index.html",
+      chunks: ["main"],
+    }),
+  ],
 };

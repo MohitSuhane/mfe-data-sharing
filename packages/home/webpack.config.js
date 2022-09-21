@@ -1,63 +1,65 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  entry: './src/index',
+  entry: "./src/index",
   cache: false,
 
-  mode: 'development',
-  devtool: 'source-map',
+  mode: "development",
+  devtool: "source-map",
 
   optimization: {
-    minimize: false
+    minimize: false,
   },
 
   output: {
-    publicPath: 'http://localhost:3001/'
+    publicPath: "http://localhost:3001/",
   },
 
   resolve: {
-    extensions: ['.jsx', '.js', '.json']
+    extensions: [".jsx", ".js", ".json"],
   },
 
   module: {
     rules: [
       {
         test: /\.jsx?$/,
-        loader: require.resolve('babel-loader'),
+        loader: require.resolve("babel-loader"),
         options: {
-          presets: [require.resolve('@babel/preset-react')]
-        }
+          presets: [require.resolve("@babel/preset-react")],
+        },
       },
       {
         test: /\.md$/,
-        loader: 'raw-loader'
-      }
-    ]
+        loader: "raw-loader",
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
   },
 
   plugins: [
-    new CopyPlugin({patterns: [
-      { from: 'fruit', to: 'fruit' },
-    ]}),
+    new CopyPlugin({ patterns: [{ from: "fruit", to: "fruit" }] }),
     new ModuleFederationPlugin({
-      name: 'home',
-      library: { type: 'var', name: 'home' },
-      filename: 'remoteEntry.js',
+      name: "home",
+      library: { type: "var", name: "home" },
+      filename: "remoteEntry.js",
       remotes: {
-        nav: 'nav',
-        productImage: 'productImage',
-        buyTools: 'buyTools',
-        cartView: 'cartView'
+        nav: "nav",
+        productImage: "productImage",
+        buyTools: "buyTools",
+        cartView: "cartView",
       },
       exposes: {
-        './fruit': './src/fruit'
+        "./fruit": "./src/fruit",
       },
-      shared: []
+      shared: [],
     }),
     new HtmlWebpackPlugin({
-      template: './public/index.html'
+      template: "./public/index.html",
     }),
-  ]
+  ],
 };
