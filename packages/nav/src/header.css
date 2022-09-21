@@ -33,3 +33,20 @@
     font-size: 24px;
     cursor: pointer;
   }
+
+  .mui-appbar {
+    background-color: #2e3032;
+    height: 75px;
+  }
+
+  .padding-left {
+    padding-left: 50px;
+  }
+
+  .img-height {
+    height: 35px;
+  }
+
+  .cart-icon {
+    cursor: pointer;
+  }

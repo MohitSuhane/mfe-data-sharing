@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import singleSpaReact from 'single-spa-react';
 import './header.css';
 import store from 'store/store';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
   const [count, setCount] = useState(store.count);
@@ -23,16 +25,17 @@ const Header = () => {
         <tbody>
           <tr className="td-middle">
             <td
-              className="mui--appbar-height mui--text-display1"
+              className="mui--appbar-height mui--text-headline"
             >
-              Header
+              <img src="http://localhost:3001/fruit/FruiWala.png" />
             </td>
             
             <td
               className="mui--appbar-height mui--text-display1"
               align="right" 
             >
-                <i className="fa fa-cart-shopping" style={{fontSize:24}} onClick={handleClick} />
+                <FontAwesomeIcon icon={faCartShopping} onClick={handleClick} className="cart-icon" />
+                {/* <i className="fa fa-cart-shopping" style={{fontSize:24}}  /> */}
                 <span className='badge badge-warning' id='lblCartCount'> {count} </span>
             </td>
           </tr>

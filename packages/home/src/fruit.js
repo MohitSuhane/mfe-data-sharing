@@ -35,6 +35,11 @@ export default [
     price: 1,
   },
   {
+    name: 'Peach',
+    image: 'http://localhost:3001/fruit/peach.jpg',
+    price: 1,
+  },
+  {
     name: 'Plum',
     image: 'http://localhost:3001/fruit/plum.jpg',
     price: 1,

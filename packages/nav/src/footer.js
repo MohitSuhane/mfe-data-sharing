@@ -9,9 +9,12 @@ const Footer = () => (
       <tbody>
         <tr className="td-middle">
           <td
-            className="mui--appbar-height mui--text-display1"
+            className="mui--appbar-height mui--text-subhead padding-left"
           >
-            Footer
+            <div> 
+              <span> One stop shop for Fresh Fruits, contact us for subscription and follow us on</span>
+              <span> <img className='img-height' src="http://localhost:3001/fruit/logos.png" /> </span>
+            </div>
           </td>
         </tr>
       </tbody>
